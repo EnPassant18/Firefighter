@@ -1,9 +1,10 @@
 const GRID_HEIGHT = 500
-const GRID_WIDTH = 500
+const GRID_WIDTH = 800
 
 
 
 // (Number, Number, (Number, Number) => Any) => Array[Array[Any]]
+// Generates a 2D array of given height and width using a given generator function
 function array2d(height, width, generator) {
 
     let output = Array.from(
@@ -21,7 +22,7 @@ function array2d(height, width, generator) {
 
 
 
-class Game {
+class World {
 
     constructor(grid) {
         this.grid = grid; // 2D boolean array of given width and height
@@ -29,6 +30,8 @@ class Game {
         this.height = grid.length;
     }
 
+    /* Given a row and column, returns the number of living neighbors
+    of the cell in that position. */
     _countNeighborsSingle(row, col) {
         let neighborRows;
         let neighborCols;
@@ -64,6 +67,7 @@ class Game {
         return count;
     }
 
+    // Returns a table of the number of living neighbors of each cell
     _countNeighbors() {
         let countTable = array2d(this.width, this.height, () => 0);
         for (let row = 0; row < this.height; row++) {
@@ -74,14 +78,18 @@ class Game {
         return countTable;
     }
 
+    // Advances the world to the next generation, as per rules of Conway's Life
     advance() {
         let countTable =  this._countNeighbors()
+        let switchTable = array2d(this.height, this.width, () => null)
         for (let row = 0; row < this.height; row++) {
             for (let col = 0; col < this.width; col++) {
                 if (countTable[row][col] == 3) {
                     this.grid[row][col] = true;
+                    switchTable[row][col] = true;
                 } else if (countTable[row][col] != 2) {
                     this.grid[row][col] = false;
+                    switchTable[row][col] = false;
                 }
             }
         }
