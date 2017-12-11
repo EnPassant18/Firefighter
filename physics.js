@@ -80,6 +80,8 @@ class World {
             } else if (countTable[row][col] != 2) {
                 this.grid[row][col] = false;
                 return false;
+            } else {
+                return this.grid[row][col]
             }
         })
     }

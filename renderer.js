@@ -1,5 +1,3 @@
-// Note that the first ten rows are an invisible "spawning area"
-
 // Draws the world
 World.prototype.init = function() {
     for (let row = SPAWN_AREA_HEIGHT; row < this.height; row++) {
@@ -18,12 +16,12 @@ World.prototype.init = function() {
 
 // Advances the world by a generation and updates the rendering
 World.prototype.update = function() {
-    const updateTable = this.advance()
+    const updatedTable = this.advance()
     for (let row = SPAWN_AREA_HEIGHT; row < this.height; row++) {
         for (let col = 0; col < this.width; col++) {
-            if (updateTable[row][col] === true) {
+            if (updatedTable[row][col] === true) {
                 document.getElementById(`${row}-${col}`).classList.replace("dead", "alive")
-            } else if (updateTable[row][col] === false) {
+            } else if (updatedTable[row][col] === false) {
                 document.getElementById(`${row}-${col}`).classList.replace("alive", "dead")
             }
         }

@@ -23,7 +23,7 @@ World.prototype.spawnGlider = function(col, direction) {
 }
 
 // Creates a ship in the spawning area, facing down, centered on the given column
-World.prototype.spawnShip = function(col, direction) {
+World.prototype.spawnShip = function(col) {
     this.grid[SPAWN_AREA_HEIGHT - 5][col - 2] = 
     this.grid[SPAWN_AREA_HEIGHT - 5][col] = 
     this.grid[SPAWN_AREA_HEIGHT - 4][col + 1] = 
