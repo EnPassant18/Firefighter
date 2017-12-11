@@ -1,45 +1,14 @@
 <html>
     <head>
         <title>The Game of Life</title>
-        <style>
-            #world {
-                width: 1200px;
-                height: 800px;
-                position: relative;
-                margin: 0 auto;
-                top: 20px;
-                border-style: solid;
-                border-color: grey;
-            }
-            .cell {
-                width: 10px;
-                height: 10px;
-            }
-            .cell.alive {
-                background-color: white;
-            }
-            .cell.dead {
-                background-color: black;
-            }
-        </style>
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
         <div id="world"></div>
         <script src="physics.js"></script>
         <script src="renderer.js"></script>
         <script src="spawner.js"></script>
-        <script>
-            REFRESH_RATE = 100
-            SPAWN_AREA_HEIGHT = 10
-            WORLD_HEIGHT = 80
-            WORLD_WIDTH = 120
-            const startState = array2d(SPAWN_AREA_HEIGHT + WORLD_HEIGHT, WORLD_WIDTH, () => false);
-            world = new World(startState);
-            world.init();
-            setInterval(function() {
-                world.advance() 
-                world.update() 
-            }, REFRESH_RATE);
-        </script>
+        <script src="startup.js"></script>
+        <script src="player.js"></script>
     </body>
 </html>

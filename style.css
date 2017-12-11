@@ -1,0 +1,24 @@
+#world {
+    width: 1200px;
+    height: 800px;
+    position: relative;
+    margin: 0 auto;
+    top: 20px;
+    border-style: solid;
+    border-color: grey;
+}
+#player {
+    width: 50px;
+    height: 10px;
+    background-color: rgb(98, 98, 255);
+}
+.cell {
+    width: 10px;
+    height: 10px;
+}
+.cell.alive {
+    background-color: white;
+}
+.cell.dead {
+    background-color: black;
+}
