@@ -27,15 +27,19 @@
         <div id="world"></div>
         <script src="physics.js"></script>
         <script src="renderer.js"></script>
+        <script src="spawner.js"></script>
         <script>
-            const GRID_HEIGHT = 80;
-            const GRID_WIDTH = 120;
-            let startState = array2d(GRID_HEIGHT, GRID_WIDTH, () => false);
-            startState[0][1] = startState[1][2] = startState[2][0] =
-            startState[2][1] = startState[2][2] = true;
+            REFRESH_RATE = 40
+            SPAWN_AREA_HEIGHT = 10
+            WORLD_HEIGHT = 80
+            WORLD_WIDTH = 120
+            const startState = array2d(SPAWN_AREA_HEIGHT + WORLD_HEIGHT, WORLD_WIDTH, () => false);
             world = new World(startState);
             world.init();
-            setInterval(function() { world.update() }, 20);
+            setInterval(function() {
+                world.advance() 
+                world.update() 
+            }, REFRESH_RATE);
         </script>
     </body>
 </html>

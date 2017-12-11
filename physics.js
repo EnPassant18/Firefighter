@@ -7,7 +7,7 @@ function array2d(height, width, generator) {
         () => Array.from(Array(width)));
 
     for (let row = 0; row < height; row++) {
-        for (let col = 0; col < height; col++) {
+        for (let col = 0; col < width; col++) {
             output[row][col] = generator.call(this, row, col);
         }
     }
