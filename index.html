@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>The Game of Life</title>
+        <style>
+            #world {
+                width: 1200px;
+                height: 800px;
+                position: relative;
+                margin: 0 auto;
+                top: 20px;
+                border-style: solid;
+                border-color: grey;
+            }
+            .cell {
+                width: 10px;
+                height: 10px;
+            }
+            .cell.alive {
+                background-color: white;
+            }
+            .cell.dead {
+                background-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="world"></div>
+        <script src="physics.js"></script>
+        <script src="renderer.js"></script>
+        <script>
+            const GRID_HEIGHT = 80;
+            const GRID_WIDTH = 120;
+            let startState = array2d(GRID_HEIGHT, GRID_WIDTH, () => false);
+            startState[0][1] = startState[1][2] = startState[2][0] =
+            startState[2][1] = startState[2][2] = true;
+            world = new World(startState);
+            world.init();
+            setInterval(function() { world.update() }, 20);
+        </script>
+    </body>
+</html>

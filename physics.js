@@ -1,8 +1,3 @@
-const GRID_HEIGHT = 500
-const GRID_WIDTH = 800
-
-
-
 // (Number, Number, (Number, Number) => Any) => Array[Array[Any]]
 // Generates a 2D array of given height and width using a given generator function
 function array2d(height, width, generator) {
@@ -13,7 +8,7 @@ function array2d(height, width, generator) {
 
     for (let row = 0; row < height; row++) {
         for (let col = 0; col < height; col++) {
-            output[row][col] = generator(row, col);
+            output[row][col] = generator.call(this, row, col);
         }
     }
 
@@ -60,6 +55,7 @@ class World {
                 }
             }
         }
+
         if (this.grid[row][col]){
             count--;
         }
@@ -69,29 +65,22 @@ class World {
 
     // Returns a table of the number of living neighbors of each cell
     _countNeighbors() {
-        let countTable = array2d(this.width, this.height, () => 0);
-        for (let row = 0; row < this.height; row++) {
-            for (let col = 0; col < this.width; col++) {
-                countTable[row][col] = this._countNeighborsSingle(row, col)
-            }
-        }
-        return countTable;
+        return array2d.call(this, this.height, this.width, function(row, col) {
+            return this._countNeighborsSingle.call(this, row, col)
+        });
     }
 
-    // Advances the world to the next generation, as per rules of Conway's Life
+    // Advances the world to the next generation
     advance() {
         let countTable =  this._countNeighbors()
-        let switchTable = array2d(this.height, this.width, () => null)
-        for (let row = 0; row < this.height; row++) {
-            for (let col = 0; col < this.width; col++) {
-                if (countTable[row][col] == 3) {
-                    this.grid[row][col] = true;
-                    switchTable[row][col] = true;
-                } else if (countTable[row][col] != 2) {
-                    this.grid[row][col] = false;
-                    switchTable[row][col] = false;
-                }
+        return array2d.call(this, this.height, this.width, function(row, col) {
+            if (countTable[row][col] == 3) {
+                this.grid[row][col] = true;
+                return true;
+            } else if (countTable[row][col] != 2) {
+                this.grid[row][col] = false;
+                return false;
             }
-        }
+        })
     }
 }
