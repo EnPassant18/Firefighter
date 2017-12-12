@@ -13,7 +13,7 @@ World.prototype.draw = function() {
         for (let col = 0; col < this.width; col++) {
             let cell = document.createElement("div");
             cell.classList.add("cell");
-            cell.classList.add(this.grid[row][col] ? "alive" : "dead");
+            cell.classList.add("dead");
             cell.id = `${row}-${col}`;
             cell.style.position = "absolute";
             cell.style.top = `${CELL_SIZE*(row - SPAWN_AREA_HEIGHT)}px`;
@@ -23,16 +23,14 @@ World.prototype.draw = function() {
     }
 }
 
-// Advances the world by a generation and updates the rendering
+// Updates the rendering to match the world grid state
 World.prototype.update = function() {
-    const updatedTable = this.advance();
     for (let row = SPAWN_AREA_HEIGHT; row < this.height; row++) {
         for (let col = 0; col < this.width; col++) {
-            if (updatedTable[row][col] === true) {
-                document.getElementById(`${row}-${col}`).classList.replace("dead", "alive");
-            } else if (updatedTable[row][col] === false) {
-                document.getElementById(`${row}-${col}`).classList.replace("alive", "dead");
-            }
+            document.getElementById(`${row}-${col}`).classList.remove("dead");
+            document.getElementById(`${row}-${col}`).classList.remove("red");
+            document.getElementById(`${row}-${col}`).classList.remove("blue");
+            document.getElementById(`${row}-${col}`).classList.add(this.grid[row][col]);
         }
     }
 }

@@ -10,14 +10,17 @@
 #player {
     width: 50px;
     height: 10px;
-    background-color: rgb(98, 98, 255);
+    background-color: lightblue;
 }
 .cell {
     width: 10px;
     height: 10px;
 }
-.cell.alive {
-    background-color: white;
+.cell.red {
+    background-color: red;
+}
+.cell.blue {
+    background-color: lightblue;
 }
 .cell.dead {
     background-color: black;
