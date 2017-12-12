@@ -3,7 +3,7 @@ World.prototype.init = function() {
 
     let player = document.createElement("div");
     player.id = "player";
-    player.style.top = `${10*(this.height - SPAWN_AREA_HEIGHT - 1)}px`
+    player.style.top = `${CELL_SIZE*(this.height - SPAWN_AREA_HEIGHT - 1)}px`
     player.style.left = "0px"
     player.style.position = "absolute";
     player.style.zIndex = "1"
@@ -16,8 +16,8 @@ World.prototype.init = function() {
             cell.classList.add(this.grid[row][col] ? "alive" : "dead");
             cell.id = `${row}-${col}`;
             cell.style.position = "absolute";
-            cell.style.top = `${10*(row - SPAWN_AREA_HEIGHT)}px`;
-            cell.style.left = `${10*col}px`;
+            cell.style.top = `${CELL_SIZE*(row - SPAWN_AREA_HEIGHT)}px`;
+            cell.style.left = `${CELL_SIZE*col}px`;
             document.getElementById("world").appendChild(cell);
         }
     }
