@@ -1,5 +1,5 @@
 // Draws the world
-World.prototype.init = function() {
+World.prototype.draw = function() {
 
     let player = document.createElement("div");
     player.id = "player";
