@@ -1,12 +1,7 @@
 let REFRESH_RATE = 100
-const SPAWN_AREA_HEIGHT = 10
-const WORLD_HEIGHT = 80
-const WORLD_WIDTH = 120
-const CELL_SIZE = 10
+const SPAWN_AREA_HEIGHT = 0
+const WORLD_HEIGHT = 60
+const WORLD_WIDTH = 80
+const CELL_SIZE = 15
 world = new World(WORLD_HEIGHT + SPAWN_AREA_HEIGHT, WORLD_WIDTH);
 world.draw();
-setInterval(function() {
-    world.advance();
-    world.advance();
-    world.update();
-}, REFRESH_RATE);

@@ -3,10 +3,10 @@ World.prototype.draw = function() {
 
     let player = document.createElement("div");
     player.id = "player";
-    player.style.top = `${CELL_SIZE*(this.height - SPAWN_AREA_HEIGHT - 1)}px`
-    player.style.left = "0px"
+    player.style.top = `${CELL_SIZE*(this.height - SPAWN_AREA_HEIGHT - 1)}px`;
+    player.style.left = `${CELL_SIZE*(this.width / 2 - 2)}px`;
     player.style.position = "absolute";
-    player.style.zIndex = "1"
+    player.style.zIndex = "1";
     document.getElementById("world").appendChild(player);
 
     for (let row = SPAWN_AREA_HEIGHT; row < this.height; row++) {

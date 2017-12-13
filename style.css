@@ -1,6 +1,6 @@
 #world {
     width: 1200px;
-    height: 800px;
+    height: 900px;
     position: relative;
     margin: 0 auto;
     top: 20px;
@@ -8,13 +8,13 @@
     border-color: grey;
 }
 #player {
-    width: 50px;
-    height: 10px;
+    width: 45px;
+    height: 15px;
     background-color: lightblue;
 }
 .cell {
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
 }
 .cell.red {
     background-color: red;

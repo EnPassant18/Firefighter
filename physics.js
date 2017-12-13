@@ -25,9 +25,9 @@ class World {
         this.height = height;
     }
 
-    /* Given a row, column and color, returns the number of living neighbors
+    /* Given a row, column and color, returns the number of RED neighbors
     of the cell in that position and of that color. */
-    _countNeighborsSingle(row, col, color) {
+    _countNeighborsSingle(row, col) {
         let neighborRows;
         let neighborCols;
 
@@ -50,29 +50,28 @@ class World {
         let count = 0;
         for (let neighborRow of neighborRows) {
             for (let neighborCol of neighborCols) {
-                if (this.grid[neighborRow][neighborCol] == color) {
+                if (this.grid[neighborRow][neighborCol] == "red") {
                     count++;
                 }
             }
         }
 
-        if (this.grid[row][col] == color){
+        if (this.grid[row][col] == "red"){
             count--;
         }
         
         return count;
     }
 
-    // Returns a table of the number of living neighbors of each cell of a given color
-    _countNeighbors(color) {
+    // Returns a table of the number of red neighbors of each cell of a given color
+    _countNeighbors() {
         return array2d.call(this, this.height, this.width, function(row, col) {
-            return this._countNeighborsSingle.call(this, row, col, color)
+            return this._countNeighborsSingle.call(this, row, col)
         });
     }
 
-    // Returns the next generation world state of either color
-    // All cells of the other color are marked "dead"
-    _getNextGen(color) {
+    // Returns the next generation world state
+    _getNextGen() {
         const countTable =  this._countNeighbors(color);
         return array2d.call(this, this.height, this.width, function(row, col) {
             if (countTable[row][col] == 3) {
@@ -89,29 +88,42 @@ class World {
         })
     }
 
-    // Advances the world to the next generation. 
-    advance() {
-        const redTable = this._getNextGen("red");
-        console.log(redTable[0][0])
-        const blueTable = this._getNextGen("blue");
-        console.log(blueTable[0][0])
+    // Advances all red cells to the next generation. 
+    advanceRed() {
+        const countTable =  this._countNeighbors();
         for (let row = 0; row < this.height; row++) {
             for (let col = 0; col < this.width; col++) {
-                if (redTable[row][col] == "red") {
-                    if (blueTable[row][col] == "blue") {
+                if (countTable[row][col] == 3) {
+                    if (this.grid[row][col] == "blue") {
                         this.grid[row][col] = "dead";
                     } else {
                         this.grid[row][col] = "red";
                     }  
-                } else {
-                    if (blueTable[row][col] == "blue") {
-                        this.grid[row][col] = "blue";
-                    } else {
+                } else if (countTable[row][col] != 2) {
+                    if (this.grid[row][col] == "red") {
                         this.grid[row][col] = "dead";
                     }
                 }
             }
         }
-        console.log(this.grid[0][0])
+    }
+
+    // Moves all blue cells up by one
+    advanceBlue() {
+        for (let row = 0; row < this.height; row++) {
+            for (let col = 0; col < this.width; col++) {
+                if (this.grid[row][col] == "blue") {
+                    if (row == 0) {
+                        this.grid[row][col] = "dead";
+                    } else if (this.grid[row - 1][col] == "red") {
+                        this.grid[row - 1][col] = "dead";
+                        this.grid[row][col] = "dead";
+                    } else {
+                        this.grid[row - 1][col] = "blue";
+                        this.grid[row][col] = "dead";
+                    }
+                }
+            }
+        }
     }
 }
