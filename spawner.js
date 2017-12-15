@@ -41,11 +41,11 @@ const block = new Pattern([[0, 0], [0, 1], [1, 0], [1, 1]], "still life");
 
 const tub = new Pattern([[1, 0], [0, 1], [1, 2], [2, 1]], "still life");
 
-const boat = new Pattern([[0, 0], [1, 0], [0, 1], [1, 2], [2, 1]], "still life");
+// const boat = new Pattern([[0, 0], [1, 0], [0, 1], [1, 2], [2, 1]], "still life");
 
 const hive = new Pattern([[1, 0], [0, 1], [0, 2], [1, 3], [2, 1], [2, 2]], "still life");
 
-const stillShip = new Pattern([[0, 0], [1, 0], [0, 1], [1, 2], [2, 2], [2, 1]], "still life");
+// const stillShip = new Pattern([[0, 0], [1, 0], [0, 1], [1, 2], [2, 2], [2, 1]], "still life");
 
 const loaf = new Pattern([[1, 0], [0, 1], [0, 2], [1, 3], [2, 3], [3, 2], [2, 1]], "still life");
 
@@ -107,10 +107,10 @@ const acorn = new Pattern([[0, 0], [1, 0], [2, 0], [3, 1], [5, 0], [6, 0], [5, 2
 
 const piHeptomino = new Pattern([[0, 0], [1, 0], [2, 0], [1, 2], [0, 2], [2, 1], [2, 2]], "methuselah")
 
-const dozenGliders = new Pattern([[0, 0], [0, 1], [1, 0], [2, 0], [1, 4], [0, 4], [2, 3], [2, 4]], "methuselah")
+// const dozenGliders = new Pattern([[0, 0], [0, 1], [1, 0], [2, 0], [1, 4], [0, 4], [2, 3], [2, 4]], "methuselah")
 
 
-const gosperGun = new Pattern([
+/* const gosperGun = new Pattern([
     [0, 24], [1, 22], [1, 24],
     [2, 12], [2, 13], [2, 20],
     [2, 21], [2, 34], [2, 35],
@@ -135,3 +135,4 @@ const cowHead = new Pattern([
     [3, 3], [4, 0], [4, 4]
 ], "partial")
 
+*/

@@ -2,7 +2,7 @@ let moveDirection = "none";
 const MAX_POSITION = (world.width - 3) * CELL_SIZE
 const LEFT_KEY_CODE = 37
 const RIGHT_KEY_CODE = 39
-const SPACE_KEY_CODE = 32
+const ENTER_KEY_CODE = 13
 
 document.onkeydown = function(event) {
     if (event.keyCode == LEFT_KEY_CODE) { 
@@ -15,9 +15,9 @@ document.onkeydown = function(event) {
             moveDirection = "right";
             move("right");
         }
-    } /*else if (event.keyCode == SPACE_KEY_CODE) {
-        world.shoot(Math.round(parseInt(document.getElementById("player").style.left) / CELL_SIZE + 1));
-    }*/
+    } else if (event.keyCode == ENTER_KEY_CODE) {
+        statWave = tru
+    }
 }
 
 document.onkeyup = function(event) {
@@ -30,14 +30,13 @@ document.onkeyup = function(event) {
 function move(direction) {
     const currentPosition = parseInt(document.getElementById("player").style.left);
     if (direction == "left" && currentPosition > 0 && moveDirection == "left") {
-        document.getElementById("player").style.left = currentPosition - 15 + "px";
+        document.getElementById("player").style.left = currentPosition - 8 + "px";
         setTimeout(move, 50, direction);
     } else if (direction == "right" && currentPosition < MAX_POSITION && moveDirection == "right") {
-        document.getElementById("player").style.left = currentPosition + 15 + "px";
+        document.getElementById("player").style.left = currentPosition + 8 + "px";
         setTimeout(move, 50, direction);
     }
 }
-
 
 World.prototype.shoot = function(col) {
     this.grid[this.height - 2][col - 1] =
