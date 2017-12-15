@@ -38,6 +38,14 @@ function move(direction) {
     }
 }
 
+
+World.prototype.shoot = function(col) {
+    this.grid[this.height - 2][col - 1] =
+    this.grid[this.height - 2][col] =
+    this.grid[this.height - 2][col + 1] = 
+    "blue";
+}
+
 setInterval(function() {
     world.shoot.call(world, parseInt(document.getElementById("player").style.left) / CELL_SIZE + 1)
 }, 500)

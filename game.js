@@ -20,27 +20,8 @@ World.prototype.reset = function() {
     document.getElementById("player").style.left = `${CELL_SIZE*(this.width / 2 - 2)}px`;
 }
 
-let waves = Array(20);
 
-waves[0] = function() {
-    world.spawnTub(10, 9);
-    world.spawnTub(10, 29);
-    world.spawnTub(10, 49);
-    world.spawnTub(10, 69);
-}
-
-waves[1] = function() {
-    world.spawnBlock(10, 9);
-    world.spawnBlock(10, 29);
-    world.spawnBlock(10, 49);
-    world.spawnBlock(10, 69);
-}
-
-waves[2] = function() {
-    world.spawnShip(10, 38);
-}
-
-let currentWave = -1;
+let currentWave = 14;
 gameLoop = setInterval(function() {
     world.advanceRed();
     world.advanceBlue();
