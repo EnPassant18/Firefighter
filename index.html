@@ -4,12 +4,20 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <div id="world"></div>
+        <b id="header">Firefighter</b>
+        <h2>Don't let the fire reach the edge!</h2>
+        <canvas id="canvas" class="game" width="600" height="600"></canvas>
+        <h3>Use the left and right arrow keys to move the paddles.</h3>
+        <h3>
+            Press space to instantly douse all of the fire. 
+            <i>(This <br> power recharges after 10 seconds. The paddles will turn <br> blue when it is available.)</i>
+        </h3>
+        <script src="jquery-3.1.1.js"></script>
         <script src="physics.js"></script>
         <script src="renderer.js"></script>
         <script src="spawner.js"></script>
-        <script src="startup.js"></script>
-        <script src="movement.js"></script>
         <script src="game.js"></script>
+        <script src="movement.js"></script>
+        <script src="startup.js"></script>
     </body>
 </html>

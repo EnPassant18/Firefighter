@@ -1,7 +1,12 @@
-let REFRESH_RATE = 100
-const SPAWN_AREA_HEIGHT = 0
-const WORLD_HEIGHT = 60
-const WORLD_WIDTH = 80
-const CELL_SIZE = 8
-world = new World(WORLD_HEIGHT + SPAWN_AREA_HEIGHT, WORLD_WIDTH);
-world.draw();
+const WORLD_HEIGHT = 50;
+const WORLD_WIDTH = 50;
+const CELL_SIZE = 12;
+let game;
+$(document).ready(() => {
+    game = new Game(
+        new World(WORLD_HEIGHT, WORLD_WIDTH),
+        new Renderer($("#canvas")[0].getContext("2d"), CELL_SIZE, WORLD_WIDTH, WORLD_HEIGHT)
+    );
+    $(document).keydown(keyDownHandler);
+    $(document).keyup(keyUpHandler);
+})

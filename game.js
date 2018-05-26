@@ -1,130 +1,135 @@
-World.prototype.isGameWon = function() {
-    for (let row = 0; row < this.height; row++) {
-        for (let col = 0; col < this.width; col++) {
-            if (this.grid[row][col] == "red") { return false }
+class Game {
+
+    constructor(world, renderer) {
+        this.world = world;
+        this.renderer = renderer;
+        this.padSize = 8;
+        this.padLocation = Math.round((world.width - this.padSize) / 2);
+        this.score = 0;
+        this.started = false;
+        this._isPowerActive = false;
+    }
+
+    get advancePeriod() {
+        return 20 * (this.score + 50) /  (this.score + 20);
+    }
+
+    get paddleMovePeriod() {
+        return 20 * (this.score + 50) /  (this.score + 20);
+    }
+
+    get spawnPeriod() {
+        return 1000 * (this.score + 40) /  (this.score + 10);
+    }
+
+    get isPowerActive() {
+        return this._isPowerActive;
+    }
+
+    set isPowerActive(newValue) {
+        this._isPowerActive = newValue;
+        if (this.started) this.renderer.drawPads(this.padLocation, this.padSize, this.isPowerActive);
+    }
+
+    start() {
+        this.started = true;
+        this.renderer.drawPads(this.padLocation, this.padSize, this.isPowerActive);
+        setTimeout(this._spawnLoop.bind(this), this.spawnPeriod / 2);
+        this._advanceLoop();
+        setTimeout(() => this.isPowerActive = true, 10000);
+    }
+
+    movePads(direction) {
+        if (this.started) {
+            if (direction === MOVE_DIRECTION.LEFT) {
+                this.padLocation = Math.max(0, this.padLocation - 1);
+            } else {
+                this.padLocation = Math.min(this.world.width - this.padSize, this.padLocation + 1);
+            }
+            this.renderer.drawPads(this.padLocation, this.padSize, this.isPowerActive);
         }
     }
-    return true
-}
 
-World.prototype.isGameLost = function() {
-    const row = this.height - 1;
-    for (let col = 0; col < this.width; col++) {
-        if (this.grid[row][col] == "red") { return true }
+    power() {
+        if (this.isPowerActive) {
+            this.world.reset();
+            this.renderer.flash();
+            this.isPowerActive = false;
+            setTimeout(() => this.isPowerActive = true, 10000);
+        }
     }
-    return false
-}
 
-World.prototype.reset = function() {
-    this.grid = array2d(this.height, this.width, () => "dead");
-    document.getElementById("player").style.left = `${CELL_SIZE*(this.width / 2 - 2)}px`;
-}
+    _spawnLoop() {
+        if (this.started) {
+            Pattern.spawnRandom(this.world);
+            this.score++;
+            setTimeout(this._spawnLoop.bind(this), this.spawnPeriod);
+        }
+    }
 
-// Generate random integer between 0 and (max - 1)
-let randInt = (max) => Math.floor(Math.random() * max);
+    _advanceLoop() {
+        if (this.started) {
+            this.world.advance();
+            this._checkBoundaries();
+            this.renderer.update(this.world.grid);
+            if (this.started) setTimeout(this._advanceLoop.bind(this), this.advancePeriod);
+        }
+    }
 
-World.prototype.randomWave = function(waveNumber) {
-    const ASH_MAX = 3;
-    let shipFunction = (start) => Math.min((waveNumber - start) / 5, 3)
-    let i = 0;
-    while (i < randInt(ASH_MAX)) {
-        block.spawn(randInt(50), randInt(79));
-        i++;
+    _checkBoundaries() {
+        // top
+        for (let col = 0; col < this.world.width; col++) {
+            if (this.world.grid[0][col]) {
+                if (col >= (this.world.width - this.padLocation - this.padSize)
+                    && col < (this.world.width - this.padLocation)) {
+                    this.world.grid[0][col] = false;
+                } else {
+                    this._gameOver(); 
+                } 
+            }
+        }
+        // bottom
+        for (let col = 0; col < this.world.width; col++) {
+            if (this.world.grid[this.world.height - 1][col]) {
+                if (col >= this.padLocation && col < this.padLocation + this.padSize) {
+                    this.world.grid[this.world.height - 1][col] = false;
+                } else {
+                    this._gameOver(); 
+                }
+            }
+        }
+        // left
+        for (let row = 0; row < this.world.height; row++) {
+            if (this.world.grid[row][0]) {
+                if (row >= this.padLocation && row < this.padLocation + this.padSize) {
+                    this.world.grid[row][0] = false;
+                } else {
+                    this._gameOver(); 
+                }
+            }
+        }
+        // right
+        for (let row = 0; row < this.world.height; row++) {
+            if (this.world.grid[row][this.world.width - 1]) {
+                if (row >= (this.world.height - this.padLocation - this.padSize)
+                && row < (this.world.height - this.padLocation)) {
+                    this.world.grid[row][this.world.width - 1] = false;
+                } else {
+                    this._gameOver(); 
+                }
+            }
+        }
     }
-    i = 0;
-    while (i < randInt(ASH_MAX)) {
-        tub.spawn(randInt(50), randInt(78));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(ASH_MAX)) {
-        bigBarge.spawn(randInt(50), randInt(77), randInt(2), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(ASH_MAX)) {
-        hive.spawn(randInt(50), randInt(77));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(ASH_MAX)) {
-        loaf.spawn(randInt(50), randInt(77), randInt(2), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(ASH_MAX)) {
-        pond.spawn(randInt(50), randInt(77));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(ASH_MAX)) {
-        blinker.spawn(randInt(50), randInt(78));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(ASH_MAX)) {
-        toad.spawn(randInt(50), randInt(77), randInt(2), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(ASH_MAX)) {
-        beacon.spawn(randInt(50), randInt(77), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(ASH_MAX)) {
-        clock.spawn(randInt(50), randInt(77), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(shipFunction(2))) {
-        glider.spawn(randInt(45), randInt(77), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(shipFunction(4))) {
-        lightShip.spawn(randInt(40), randInt(77), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(shipFunction(6))) {
-        midShip.spawn(randInt(40), randInt(77), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(shipFunction(8))) {
-        heavyShip.spawn(randInt(40), randInt(77), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(shipFunction(12))) {
-        pentadecathlon.spawn(randInt(50), randInt(70), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(shipFunction(12))) {
-        rPentomino.spawn(randInt(40), randInt(77), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(shipFunction(14))) {
-        piHeptomino.spawn(randInt(40), randInt(77), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(shipFunction(16))) {
-        acorn.spawn(randInt(40), randInt(77), randInt(2));
-        i++;
-    }
-    i = 0;
-    while (i < randInt(shipFunction(18))) {
-        dozenGliders.spawn(randInt(50), randInt(77), randInt(2));
-        i++;
+
+    _gameOver() {
+        this.started = false;
+        this.world.reset();
+        setTimeout(() => this.renderer.gameOver(this.score), 10);
+        game = new Game(this.world, this.renderer);
     }
 }
 
-let currentWave = 1;
-let countdown;
+/*
 gameLoop = setInterval(function() {
     world.advanceRed();
     world.advanceBlue();
@@ -143,3 +148,4 @@ gameLoop = setInterval(function() {
         alert("You lost");
     }
 }, REFRESH_RATE);
+*/

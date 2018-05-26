@@ -1,27 +1,21 @@
-#world {
-    width: 640px;
-    height: 480px;
+body {
+    font-family: Courier, monospace;
+    text-align: center;
+}
+
+#header {
+    top: 10px;
     position: relative;
-    margin: 0 auto;
-    top: 20px;
+    font-size: 50px;
+}
+
+#canvas {
+    width: 600px;
+    height: 600px;
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
     border-style: solid;
     border-color: grey;
-}
-#player {
-    width: 24px;
-    height: 8px;
-    background-color: lightblue;
-}
-.cell {
-    width: 8px;
-    height: 8px;
-}
-.cell.red {
-    background-color: red;
-}
-.cell.blue {
-    background-color: lightblue;
-}
-.cell.dead {
-    background-color: black;
 }

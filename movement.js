@@ -1,51 +1,39 @@
-let moveDirection = "none";
-const MAX_POSITION = (world.width - 3) * CELL_SIZE
-const LEFT_KEY_CODE = 37
-const RIGHT_KEY_CODE = 39
-const ENTER_KEY_CODE = 13
+const ENTER_KEY_CODE = 13;
+const LEFT_KEY_CODE = 37;
+const RIGHT_KEY_CODE = 39;
+const SPACE_KEY_CODE = 32;
+let moveLoop = null;
 
-document.onkeydown = function(event) {
-    if (event.keyCode == LEFT_KEY_CODE) { 
-        if (moveDirection != "left") {
-            moveDirection = "left";
-            move("left");
-        }
-    } else if (event.keyCode == RIGHT_KEY_CODE) { 
-        if (moveDirection != "right") {
-            moveDirection = "right";
-            move("right");
-        }
-    } else if (event.keyCode == ENTER_KEY_CODE) {
-        statWave = tru
+function keyDownHandler(event) {
+    switch (event.keyCode) {
+        case ENTER_KEY_CODE: if (!game.started) game.start(); break;
+        case LEFT_KEY_CODE: startMoving(MOVE_DIRECTION.LEFT); break;
+        case RIGHT_KEY_CODE: startMoving(MOVE_DIRECTION.RIGHT); break;
+        case SPACE_KEY_CODE: event.preventDefault(); game.power(); break;
+    }
+};
+
+function keyUpHandler(event) {
+    if (event.keyCode == LEFT_KEY_CODE
+        || event.keyCode == RIGHT_KEY_CODE) { 
+        stopMoving()
     }
 }
 
-document.onkeyup = function(event) {
-    if (event.keyCode == LEFT_KEY_CODE || event.keyCode == RIGHT_KEY_CODE) { 
-        moveDirection = "none";
+function startMoving(direction) {
+    if (moveLoop === null) {
+        moveLoop = setInterval(() => {
+            game.movePads(direction);
+        }, game.paddleMovePeriod);
     }
 }
 
-// Moves player by one cell in given direction.
-function move(direction) {
-    const currentPosition = parseInt(document.getElementById("player").style.left);
-    if (direction == "left" && currentPosition > 0 && moveDirection == "left") {
-        document.getElementById("player").style.left = currentPosition - 8 + "px";
-        setTimeout(move, 50, direction);
-    } else if (direction == "right" && currentPosition < MAX_POSITION && moveDirection == "right") {
-        document.getElementById("player").style.left = currentPosition + 8 + "px";
-        setTimeout(move, 50, direction);
-    }
+function stopMoving() {
+    clearInterval(moveLoop);
+    moveLoop = null;
 }
 
-World.prototype.shoot = function(col) {
-    this.grid[this.height - 2][col - 1] =
-    this.grid[this.height - 2][col] =
-    this.grid[this.height - 2][col + 1] = 
-    "blue";
+MOVE_DIRECTION = {
+    LEFT: true,
+    RIGHT: false
 }
-
-setInterval(function() {
-    world.shoot.call(world, parseInt(document.getElementById("player").style.left) / CELL_SIZE + 1)
-}, 500)
-    
